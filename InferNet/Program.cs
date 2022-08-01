@@ -10,7 +10,7 @@ using InferNet;
 
 //Question2.SummaryInfo();
 //Question2.PartAandB();
-Question2.PartC();
+//Question2.PartC();
 
 //Question3.SummaryInfo();
 //Question3.PartA();
@@ -20,4 +20,6 @@ Question2.PartC();
 //Question4.PartA();
 //Question4.PartB();
 //Question4.PartC();
+
+Testing.TestBucketize();
 

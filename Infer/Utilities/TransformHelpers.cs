@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace InferNet
+
+namespace Infer.Utilities
 {
-    public static class Helpers
+    public static class TransformHelpers
     {
-        public static List<BinnedData<TKey>> GetBinnedData<T,TKey>(IEnumerable<T> list, Func<T,TKey> colFunc)
+        public static List<BinnedData<TKey>> GetBinnedData<T, TKey>(IEnumerable<T> list, Func<T, TKey> colFunc)
         {
             var groups = list.GroupBy(colFunc).Select(x => new BinnedData<TKey>()
             {
@@ -23,7 +24,7 @@ namespace InferNet
         {
             var min = Math.Floor(source.Min());
             var max = Math.Ceiling(source.Max());
-            
+
             var totalBuckets = max - min;
             var bucketSize = 1;
             var buckets = new List<int>();
@@ -40,34 +41,34 @@ namespace InferNet
                 }
                 buckets[bucketIndex]++;
             }
-            
+
             return buckets;
         }
 
-        //public static List<BinnedData<T>> Bucketize<T>(this IEnumerable<double> source)
-        //{
-        //    var min = Math.Floor(source.Min());
-        //    var max = Math.Ceiling(source.Max());
+        public static List<BinnedData<T>> Bucketize<T>(this IEnumerable<double> source)
+        {
+            var min = Math.Floor(source.Min());
+            var max = Math.Ceiling(source.Max());
 
-        //    var totalBuckets = max - min;
-        //    var bucketSize = 1;
-        //    var buckets = new List<BinnedData<T>>();
-        //    foreach (var value in source)
-        //    {
-        //        int bucketIndex = 0;
-        //        if (bucketSize > 0.0)
-        //        {
-        //            bucketIndex = (int)((value - min) / bucketSize);
-        //            if (bucketIndex == totalBuckets)
-        //            {
-        //                bucketIndex--;
-        //            }
-        //        }
-        //        buckets[bucketIndex]++;
-        //    }
+            var totalBuckets = max - min;
+            var bucketSize = 1;
+            var buckets = new List<BinnedData<T>>();
+            foreach (var value in source)
+            {
+                int bucketIndex = 0;
+                if (bucketSize > 0.0)
+                {
+                    bucketIndex = (int)((value - min) / bucketSize);
+                    if (bucketIndex == totalBuckets)
+                    {
+                        bucketIndex--;
+                    }
+                }
+                //buckets[bucketIndex]++;
+            }
 
-        //    return buckets;
-        //}
+            return buckets;
+        }
     }
 
 

@@ -291,6 +291,41 @@ namespace InferNet
 
     }
 
+    public static class Testing
+    {
+        public static void TestBucketize()
+        {
+            var sampler = Stats.NormalDist.SampleNormalDist;
+
+            // Lets set up the scenario 
+            List<double> sampleRuns = new List<double>();
+            int sampleSize = 1000000;
+            List<int> sampleIndexs = Enumerable.Range(0, sampleSize).ToList();
+
+            for (var i = 1; i <= sampleSize; i++)
+            {
+
+                // Now sample the distribution and add to list
+
+                sampleRuns.Add(sampler(100, 15));
+
+            }
+
+            Helpers.Bucketize(sampleRuns);  // , ((int)Math.Floor(sampleRuns.Max()) - (int)Math.Ceiling(sampleRuns.Min()))
+
+            Plotting.GenerateHistogram(sampleRuns.ToArray(), "TestingBucketize");
+            List<(double x, double probability)> probabilities = new List<(double, double)>();
+            for (var i = 100.0; i < 250; i = i + 0.1)
+            {
+                var probability = (double)sampleRuns.Where(x => x < i).Count() / (double)sampleSize;
+                probabilities.Add((i, probability));
+            }
+
+            var expectedCuttoff = probabilities.Where(x => Math.Round((x.probability), 2) == 0.95).FirstOrDefault();
+
+        }
+    }
+
     public static class DistributionSimulator
     {
 
